@@ -1,6 +1,5 @@
------------------For support, scripts, and more----------------
---------------- https://discord.gg/fz655NHeDq  -------------
----------------------------------------------------------------
+local QBCore = exports['qb-core']:GetCoreObject()
+
 local spawnedSounds = {}
 
 RegisterCommand('carplay', function()
@@ -14,7 +13,7 @@ RegisterCommand('carplay', function()
         }) 
         SetNuiFocus(true, true)
     else
-        notify("Must be in a vehicle", "error", "Error", 5000)
+        QBCore.Functions.Notify("Must be in a vehicle!", "error", 5000)
     end
 end)
 
@@ -285,16 +284,6 @@ RegisterNUICallback('callback', function(data)
         TriggerServerEvent("nass_carplay:syncmusic", peds, data.veh, data)
     end
 end)
-
-function notify(msg, type, title, time)
-    if GetResourceState('nass_notifications') == 'started' then
-        exports["nass_notifications"]:ShowNotification(type, title, msg, time)
-    else
-        BeginTextCommandThefeedPost('STRING')
-        AddTextComponentSubstringPlayerName(msg)
-        EndTextCommandThefeedPostTicker(0, 1)
-    end
-end
 
 function getPeds(veh)
     local peds = {}
